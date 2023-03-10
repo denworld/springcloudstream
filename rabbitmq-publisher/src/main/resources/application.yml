@@ -1,0 +1,24 @@
+server:
+  port: 8801
+
+spring:
+  application:
+    name: rabbit-publisher
+  cloud:
+    stream:
+      binders: # 在此处配置要绑定的rabbitmq的服务信息
+        myRabbit: # 表示定义的名称，用于binding整合（随意）
+          type: rabbit # 消息组件类型  rabbitmq:
+          environment:
+            spring:
+              rabbitmq:
+                host: 192.168.137.10
+                port: 5672
+                username: guest
+                password: guest
+      bindings:
+        output:
+          destination: myExchange # 表示要使用的Exchange名称
+          content-type: application/json  # 设置消息类型，application/json -> json格式，本文要设置为 text/plain -> 文本类型
+          binder: myRabbit
+
